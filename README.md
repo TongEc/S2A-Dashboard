@@ -49,7 +49,7 @@
 
 - **后端**: Node.js + Express.js
 - **数据库**: PostgreSQL
-- **前端**: 原生 HTML/CSS/JavaScript（单页应用）
+- **前端**: 原生 HTML/CSS/JavaScript（模块化单页应用）
 - **认证**: Session + 密码验证
 
 ## 快速开始
@@ -199,7 +199,9 @@ S2A-Dashboard/
 ├── docker-compose.yml   # Docker Compose 编排文件
 ├── package.json         # npm 配置
 ├── public/
-│   ├── index.html       # 前端单页应用
+│   ├── index.html       # 前端页面结构
+│   ├── styles.css       # 样式文件
+│   ├── app.js          # 前端应用逻辑
 │   └── favicon.svg      # 网站图标
 ├── src/
 │   ├── index.js         # 应用入口
