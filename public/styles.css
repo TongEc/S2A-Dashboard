@@ -533,6 +533,15 @@ tr:hover {
   margin: 0 16px;
 }
 
+.page-ellipsis {
+  color: var(--text-secondary);
+  font-size: 14px;
+  width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Charts placeholder */
 .charts-grid {
   display: grid;

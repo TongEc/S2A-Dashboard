@@ -801,12 +801,49 @@ function renderPagination(type, pagination) {
     <button class="page-btn" onclick="changePage('${type}', ${page - 1})" ${page <= 1 ? 'disabled' : ''}>←</button>
   `;
 
-  for (let i = 1; i <= Math.min(totalPages, 7); i++) {
-    html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="changePage('${type}', ${i})">${i}</button>`;
+  // Generate page numbers with ellipsis
+  const pages = [];
+  const showPages = 7; // Total buttons to show (including ellipsis positions)
+
+  if (totalPages <= showPages) {
+    // Show all pages if total is small
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    // Always show first page
+    pages.push(1);
+
+    if (page <= 4) {
+      // Near the beginning: 1 2 3 4 5 ... last
+      for (let i = 2; i <= 5; i++) {
+        pages.push(i);
+      }
+      pages.push('...');
+      pages.push(totalPages);
+    } else if (page >= totalPages - 3) {
+      // Near the end: 1 ... n-4 n-3 n-2 n-1 n
+      pages.push('...');
+      for (let i = totalPages - 4; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // In the middle: 1 ... p-1 p p+1 ... last
+      pages.push('...');
+      for (let i = page - 1; i <= page + 1; i++) {
+        pages.push(i);
+      }
+      pages.push('...');
+      pages.push(totalPages);
+    }
   }
 
-  if (totalPages > 7) {
-    html += `<span class="page-info">... ${totalPages}</span>`;
+  for (const p of pages) {
+    if (p === '...') {
+      html += `<span class="page-ellipsis">...</span>`;
+    } else {
+      html += `<button class="page-btn ${p === page ? 'active' : ''}" onclick="changePage('${type}', ${p})">${p}</button>`;
+    }
   }
 
   html += `
