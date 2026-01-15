@@ -132,6 +132,7 @@ const translations = {
 
     // Status
     'status.active': '活跃',
+    'status.inactive': '未激活',
     'status.disabled': '已禁用',
     'status.expired': '已过期',
     'status.admin': '管理员',
@@ -263,6 +264,7 @@ const translations = {
 
     // Status
     'status.active': 'Active',
+    'status.inactive': 'Inactive',
     'status.disabled': 'Disabled',
     'status.expired': 'Expired',
     'status.admin': 'Admin',
