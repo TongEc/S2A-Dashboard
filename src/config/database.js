@@ -8,4 +8,8 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
 });
 
+pool.on('connect', (client) => {
+  client.query("SET timezone = 'Asia/Shanghai'");
+});
+
 module.exports = pool;

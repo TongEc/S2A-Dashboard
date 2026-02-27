@@ -25,12 +25,12 @@ router.get('/', async (req, res) => {
         g.name as group_name,
 
         -- 请求数指标
-        (SELECT COUNT(*) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= NOW() - INTERVAL '24 hours') as requests_24h,
+        (SELECT COUNT(*) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= CURRENT_DATE) as requests_today,
         (SELECT COUNT(*) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= NOW() - INTERVAL '7 days') as requests_7d,
         (SELECT COUNT(*) FROM usage_logs ul WHERE ul.api_key_id = ak.id) as requests_total,
 
         -- 金额指标
-        (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= NOW() - INTERVAL '24 hours') as cost_24h,
+        (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= CURRENT_DATE) as cost_today,
         (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= NOW() - INTERVAL '7 days') as cost_7d,
         (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id) as cost_total,
 
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
       LEFT JOIN users u ON ak.user_id = u.id
       LEFT JOIN groups g ON ak.group_id = g.id
       WHERE ak.deleted_at IS NULL
-      ORDER BY (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= NOW() - INTERVAL '24 hours') DESC, ak.created_at DESC
+      ORDER BY (SELECT COALESCE(SUM(total_cost), 0) FROM usage_logs ul WHERE ul.api_key_id = ak.id AND ul.created_at >= CURRENT_DATE) DESC, ak.created_at DESC
       LIMIT $1 OFFSET $2
     `, [limit, offset]);
 

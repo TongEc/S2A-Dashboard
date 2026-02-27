@@ -6,6 +6,7 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     environment:
+      - TZ=Asia/Shanghai
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_NAME=${DB_NAME:-sub2api}
@@ -26,6 +27,8 @@ services:
     container_name: s2a-postgres
     restart: unless-stopped
     environment:
+      - TZ=Asia/Shanghai
+      - PGTZ=Asia/Shanghai
       - POSTGRES_DB=${DB_NAME:-sub2api}
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}

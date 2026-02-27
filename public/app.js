@@ -60,14 +60,14 @@ const translations = {
 
     // API Keys Table
     'apikeys.title': 'API Keys 列表',
-    'apikeys.rank': '24h排名',
+    'apikeys.rank': '今日排名',
     'apikeys.id': 'ID',
     'apikeys.name': '名称',
     'apikeys.key': 'Key',
     'apikeys.user': '用户',
     'apikeys.group': '分组',
-    'apikeys.requests_24h': '24h请求',
-    'apikeys.cost_24h': '24h消费',
+    'apikeys.requests_today': '今日请求',
+    'apikeys.cost_today': '今日消费',
     'apikeys.cost_7d': '7天消费',
     'apikeys.cost_total': '总消费',
     'apikeys.total_tokens': '总Token',
@@ -192,14 +192,14 @@ const translations = {
 
     // API Keys Table
     'apikeys.title': 'API Keys List',
-    'apikeys.rank': '24h Rank',
+    'apikeys.rank': 'Today Rank',
     'apikeys.id': 'ID',
     'apikeys.name': 'Name',
     'apikeys.key': 'Key',
     'apikeys.user': 'User',
     'apikeys.group': 'Group',
-    'apikeys.requests_24h': '24h Requests',
-    'apikeys.cost_24h': '24h Cost',
+    'apikeys.requests_today': 'Today Requests',
+    'apikeys.cost_today': 'Today Cost',
     'apikeys.cost_7d': '7d Cost',
     'apikeys.cost_total': 'Total Cost',
     'apikeys.total_tokens': 'Total Tokens',
@@ -475,16 +475,13 @@ function formatCurrency(num) {
 
 function formatDate(dateStr) {
   if (!dateStr) return '-';
-  return new Date(dateStr).toLocaleString('zh-CN');
+  const locale = currentLang === 'zh' ? 'zh-CN' : 'en-US';
+  return new Date(dateStr).toLocaleString(locale, { timeZone: 'Asia/Shanghai' });
 }
 
 function formatShortDate(dateStr) {
   if (!dateStr) return '-';
-  const date = new Date(dateStr);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}/${month}/${day}`;
+  return new Date(dateStr).toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai' });
 }
 
 // Load overview data
@@ -617,8 +614,8 @@ async function loadApiKeys() {
           <td><code style="background:#f3f4f6;padding:4px 8px;border-radius:4px;font-size:12px">${key.key_masked}</code></td>
           <td>${key.user_name || '-'}</td>
           <td>${key.group_name || '-'}</td>
-          <td>${formatNumber(key.requests_24h)}</td>
-          <td><strong style="color:var(--candy-purple)">${formatCurrency(key.cost_24h)}</strong></td>
+          <td>${formatNumber(key.requests_today)}</td>
+          <td><strong style="color:var(--candy-purple)">${formatCurrency(key.cost_today)}</strong></td>
           <td><strong style="color:var(--candy-blue)">${formatCurrency(key.cost_7d)}</strong></td>
           <td><strong style="color:var(--candy-pink)">${formatCurrency(key.cost_total)}</strong></td>
           <td style="color:var(--text-secondary)">${formatNumber(key.total_tokens)}</td>
